@@ -1,4 +1,6 @@
 import React from "react";
+import { Image } from "../ui/image";
+import { motion } from "framer-motion";
 
 interface HeroProps {
   title?: string;
@@ -15,23 +17,40 @@ const Hero = ({
     <div className="relative h-[600px] w-full bg-white">
       {/* Background image with overlay */}
       <div className="absolute inset-0 w-full h-full">
-        <img
+        <Image
           src={backgroundImage}
           alt="Hero background"
-          className="w-full h-full object-cover"
+          className="w-full h-full"
+          sizes="100vw"
+          priority
         />
-        <div className="absolute inset-0 bg-gray-900/70" /> {/* Dark overlay */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 bg-gray-900"
+        />
       </div>
 
       {/* Content */}
       <div className="relative z-10 h-full w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-center items-start h-full">
-          <h1 className="text-4xl md:text-6xl font-serif text-white mb-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-6xl font-serif text-white mb-6"
+          >
             {title}
-          </h1>
-          <p className="text-xl md:text-2xl font-sans text-gray-200 max-w-2xl">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-xl md:text-2xl font-sans text-gray-200 max-w-2xl"
+          >
             {subtitle}
-          </p>
+          </motion.p>
         </div>
       </div>
     </div>
