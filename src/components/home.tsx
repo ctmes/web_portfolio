@@ -1,0 +1,77 @@
+import React, { useEffect, useState } from "react";
+import Navbar from "./layout/Navbar";
+import Hero from "./sections/Hero";
+import ProjectGrid from "./sections/ProjectGrid";
+import Footer from "./layout/Footer";
+
+interface HomeProps {
+  isNavScrolled?: boolean;
+  heroProps?: {
+    title?: string;
+    subtitle?: string;
+    backgroundImage?: string;
+  };
+  projectGridProps?: {
+    projects?: Array<{
+      id: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+      technologies: string[];
+      githubUrl: string;
+      liveUrl: string;
+      category: string;
+    }>;
+  };
+  footerProps?: {
+    socialLinks?: {
+      github?: string;
+      twitter?: string;
+      linkedin?: string;
+      email?: string;
+      leetcode?: string;
+    };
+  };
+}
+
+const Home = ({
+  heroProps = {
+    title: "Hi, I'm Colin Melville",
+    subtitle:
+      "Advanced Computer Science student at ANU passionate about data analytics and web development",
+    backgroundImage:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
+  },
+  projectGridProps = {},
+  footerProps = {
+    socialLinks: {
+      github: "https://github.com/ctmes",
+      leetcode: "https://leetcode.com/u/colintmelville/",
+      linkedin: "https://www.linkedin.com/in/colin-melville-570383245",
+      email: "mailto:colintmelville@gmail.com",
+    },
+  },
+}: HomeProps) => {
+  const [isNavScrolled, setIsNavScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsNavScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Navbar isScrolled={isNavScrolled} className="bg-[#2D2D2D]" />
+      <main>
+        <Hero {...heroProps} />
+        <ProjectGrid {...projectGridProps} />
+      </main>
+      <Footer {...footerProps} />
+    </div>
+  );
+};
+
+export default Home;
