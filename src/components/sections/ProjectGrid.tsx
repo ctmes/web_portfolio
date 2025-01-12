@@ -11,7 +11,7 @@ interface ProjectGridProps {
 
 const categories = ["All", "Frontend", "Full Stack", "Data Analysis", "AI/ML"];
 
-const ProjectGrid = ({ initialProjects }: ProjectGridProps) => {
+function ProjectGrid({ initialProjects }: ProjectGridProps) {
   const [projects, setProjects] = useState<Project[]>(initialProjects || []);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(!initialProjects);
@@ -51,12 +51,7 @@ const ProjectGrid = ({ initialProjects }: ProjectGridProps) => {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-gray-50">
-      <motion.div
-        className="mb-8 flex flex-wrap gap-2 justify-center"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div className="mb-8 flex flex-wrap gap-2 justify-center">
         {categories.map((category) => (
           <Button
             key={category}
@@ -67,30 +62,44 @@ const ProjectGrid = ({ initialProjects }: ProjectGridProps) => {
             {category}
           </Button>
         ))}
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center"
-        layout
-      >
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              id={project.id}
-              title={project.title}
-              description={project.description}
-              imageUrl={project.image_url}
-              technologies={project.technologies}
-              githubUrl={project.github_url}
-              liveUrl={project.live_url}
-              index={index}
-            />
-          ))}
-        </AnimatePresence>
-      </motion.div>
+      <div className="min-h-[600px] relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+          <AnimatePresence mode="wait">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ProjectCard
+                  id={project.id}
+                  title={project.title}
+                  description={project.description}
+                  imageUrl={project.image_url}
+                  technologies={project.technologies}
+                  githubUrl={project.github_url}
+                  liveUrl={project.live_url}
+                  index={index}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {filteredProjects.length === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p className="text-gray-500">
+                No projects found in this category
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default ProjectGrid;
