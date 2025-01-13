@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { motion } from "framer-motion";
 
 interface NavbarProps {
   className?: string;
@@ -12,6 +13,7 @@ interface NavbarProps {
 
 const Navbar = ({ className, isScrolled = false }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLogoHovered, setIsLogoHovered] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
 
@@ -70,11 +72,63 @@ const Navbar = ({ className, isScrolled = false }: NavbarProps) => {
           <Link
             to="/"
             className={cn(
-              "text-2xl font-bold tracking-tight transition-colors duration-200",
+              "text-2xl font-bold tracking-tight transition-colors duration-200 relative",
               isScrolled ? "text-gray-900" : "text-white",
             )}
+            onMouseEnter={() => setIsLogoHovered(true)}
+            onMouseLeave={() => setIsLogoHovered(false)}
           >
-            CM
+            <motion.span
+              animate={
+                isLogoHovered
+                  ? {
+                      rotateY: [0, 360],
+                      color: [
+                        "#FFFFFF",
+                        "#FFD700",
+                        "#FF69B4",
+                        "#00FF00",
+                        "#FFFFFF",
+                      ],
+                      scale: [1, 1.2, 1],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: 1,
+                ease: "easeInOut",
+                times: [0, 0.2, 0.5, 0.8, 1],
+              }}
+              className="inline-block"
+            >
+              C
+            </motion.span>
+            <motion.span
+              animate={
+                isLogoHovered
+                  ? {
+                      rotateX: [0, 360],
+                      color: [
+                        "#FFFFFF",
+                        "#00FF00",
+                        "#FFD700",
+                        "#FF69B4",
+                        "#FFFFFF",
+                      ],
+                      scale: [1, 1.2, 1],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: 1,
+                ease: "easeInOut",
+                times: [0, 0.2, 0.5, 0.8, 1],
+                delay: 0.1,
+              }}
+              className="inline-block"
+            >
+              M
+            </motion.span>
           </Link>
 
           {/* Desktop Navigation */}

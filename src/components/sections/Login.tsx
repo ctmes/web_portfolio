@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { useAuth } from "@/lib/auth";
+import { testSupabaseConnection } from "@/lib/supabase";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -30,6 +31,20 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    // Test Supabase connection on component mount
+    testSupabaseConnection().then((isConnected) => {
+      if (!isConnected) {
+        toast({
+          title: "Connection Error",
+          description:
+            "Could not connect to the database. Please try again later.",
+          variant: "destructive",
+        });
+      }
+    });
+  }, [toast]);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,13 +55,16 @@ const Login = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      console.log("Attempting to sign in with:", { email: data.email });
       await signIn(data.email, data.password);
       const from = location.state?.from?.pathname || "/admin/messages";
       navigate(from, { replace: true });
     } catch (error) {
+      console.error("Login error:", error);
       toast({
         title: "Error",
-        description: "Invalid email or password",
+        description:
+          error instanceof Error ? error.message : "Invalid email or password",
         variant: "destructive",
       });
     }
