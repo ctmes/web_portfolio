@@ -41,16 +41,16 @@ function ProjectGrid({ initialProjects }: ProjectGridProps) {
 
   if (isLoading) {
     return (
-      <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-gray-50">
+      <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-background">
         <div className="flex justify-center items-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-gray-50">
+    <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-background">
       <div className="mb-8 flex flex-wrap gap-2 justify-center">
         {categories.map((category) => (
           <Button
@@ -91,7 +91,7 @@ function ProjectGrid({ initialProjects }: ProjectGridProps) {
 
           {filteredProjects.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-gray-500">
+              <p className="text-muted-foreground">
                 No projects found in this category
               </p>
             </div>

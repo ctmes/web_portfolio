@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./layout/Navbar";
 import Hero from "./sections/Hero";
 import ProjectGrid from "./sections/ProjectGrid";
 import Footer from "./layout/Footer";
 
 interface HomeProps {
-  isNavScrolled?: boolean;
   heroProps?: {
     title?: string;
     subtitle?: string;
@@ -52,19 +51,9 @@ const Home = ({
     },
   },
 }: HomeProps) => {
-  const [isNavScrolled, setIsNavScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsNavScrolled(window.scrollY > 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar isScrolled={isNavScrolled} className="bg-[#2D2D2D]" />
+    <div className="min-h-screen bg-background">
+      <Navbar />
       <main>
         <Hero {...heroProps} />
         <ProjectGrid {...projectGridProps} />

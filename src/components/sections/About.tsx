@@ -28,11 +28,30 @@ const About = () => {
 
   const handleDownloadCV = async () => {
     try {
-      const { data, error } = await supabase.storage
-        .from("public")
-        .download("Resume_2023.pdf");
+      // First, test if we can access the storage bucket
+      const { data: testData, error: testError } = await supabase.storage
+        .from("resume")
+        .list("");
 
-      if (error) throw error;
+      if (testError) {
+        console.error("Storage bucket access error:", testError);
+        throw new Error("Could not access storage");
+      }
+
+      console.log("Available files:", testData);
+
+      const { data, error } = await supabase.storage
+        .from("resume")
+        .download("Colin_Melville_Resume (2).pdf");
+
+      if (error) {
+        console.error("Download error:", error);
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error("No data received");
+      }
 
       // Create a URL for the blob
       const url = window.URL.createObjectURL(data);
@@ -65,11 +84,11 @@ const About = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar className="bg-[#2D2D2D]" />
+    <div className="min-h-screen bg-background">
+      <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-20">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">About Me</h1>
+          <h1 className="text-4xl font-bold text-foreground">About Me</h1>
           <Button
             onClick={handleDownloadCV}
             className="bg-[#1A365D] hover:bg-[#2A466D] text-white"
@@ -79,10 +98,10 @@ const About = () => {
           </Button>
         </div>
 
-        <div className="space-y-8 bg-white rounded-lg p-8 shadow-sm border border-gray-100">
+        <div className="space-y-8 bg-card rounded-lg p-8 shadow-sm border border-border">
           {/* Bio Section */}
-          <section className="prose lg:prose-xl">
-            <p className="text-lg leading-relaxed mb-6">
+          <section className="prose lg:prose-xl dark:prose-invert">
+            <p className="text-lg leading-relaxed mb-6 text-foreground">
               I'm a Bachelor of Advanced Computer Science (Honours) student at
               the Australian National University's College of Engineering,
               Computing & Cybernetics, maintaining a strong academic record with
@@ -90,7 +109,7 @@ const About = () => {
               combining traditional computer science with cutting-edge fields
               like Natural Language Processing and Machine Learning.
             </p>
-            <p className="text-lg leading-relaxed mb-6">
+            <p className="text-lg leading-relaxed mb-6 text-foreground">
               Through internships at Sharperlight and Tritanium, I've gained
               practical experience in database management, pricing systems, and
               international web development. I've also completed virtual
@@ -98,7 +117,7 @@ const About = () => {
               Corporate Analyst Development Program, where I developed skills in
               data analysis, visualization, and business process optimization.
             </p>
-            <p className="text-lg leading-relaxed">
+            <p className="text-lg leading-relaxed text-foreground">
               Currently serving as the IT Director for the Financial Management
               Association of Australia at ANU, I lead the development and
               implementation of nationwide IT infrastructure while fostering
@@ -107,15 +126,13 @@ const About = () => {
           </section>
 
           {/* Skills Section */}
-          <section className="p-6 bg-gray-50 rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4">Technical Skills</h2>
+          <section className="p-6 bg-muted rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4 text-foreground">
+              Technical Skills
+            </h2>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill) => (
-                <Badge
-                  key={skill}
-                  variant="secondary"
-                  className="text-sm bg-white"
-                >
+                <Badge key={skill} variant="secondary" className="text-sm">
                   {skill}
                 </Badge>
               ))}
@@ -123,15 +140,13 @@ const About = () => {
           </section>
 
           {/* Languages Section */}
-          <section className="p-6 bg-gray-50 rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4">Languages</h2>
+          <section className="p-6 bg-muted rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4 text-foreground">
+              Languages
+            </h2>
             <div className="flex flex-wrap gap-2">
               {languages.map((language) => (
-                <Badge
-                  key={language}
-                  variant="outline"
-                  className="text-sm bg-white"
-                >
+                <Badge key={language} variant="outline" className="text-sm">
                   {language}
                 </Badge>
               ))}
@@ -139,9 +154,11 @@ const About = () => {
           </section>
 
           {/* Certifications */}
-          <section className="p-6 bg-gray-50 rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4">Certifications</h2>
-            <ul className="list-disc list-inside space-y-2 text-gray-700">
+          <section className="p-6 bg-muted rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4 text-foreground">
+              Certifications
+            </h2>
+            <ul className="list-disc list-inside space-y-2 text-muted-foreground">
               <li>Hanyu Shuiping Kaoshi (Chinese Proficiency Test) Level 3</li>
               <li>Akunacademy Options 101</li>
             </ul>

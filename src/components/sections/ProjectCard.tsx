@@ -46,7 +46,7 @@ const ProjectCard = ({
 
   return (
     <Card
-      className="w-[320px] overflow-hidden group bg-white hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
+      className="w-[320px] overflow-hidden group bg-card hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
       onClick={handleCardClick}
     >
       <div className="relative h-36 overflow-hidden">
@@ -58,21 +58,17 @@ const ProjectCard = ({
         />
       </div>
       <CardHeader className="p-4 pb-2 space-y-2">
-        <CardTitle className="text-lg font-semibold text-gray-900 line-clamp-1">
+        <CardTitle className="text-lg font-semibold text-foreground line-clamp-1">
           {title}
         </CardTitle>
-        <CardDescription className="text-sm text-gray-600 line-clamp-2">
+        <CardDescription className="text-sm text-muted-foreground line-clamp-2">
           {description}
         </CardDescription>
       </CardHeader>
       <CardContent className="p-4 pt-0 flex-grow">
         <div className="flex flex-wrap gap-1.5">
           {technologies.map((tech, index) => (
-            <Badge
-              key={index}
-              variant="secondary"
-              className="bg-gray-100 text-gray-700 text-xs"
-            >
+            <Badge key={index} variant="secondary" className="text-xs">
               {tech}
             </Badge>
           ))}
