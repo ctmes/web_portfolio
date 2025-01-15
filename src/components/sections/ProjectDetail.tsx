@@ -6,6 +6,7 @@ import { ArrowLeft, Github, ExternalLink } from "lucide-react";
 import { Image } from "../ui/image";
 import { getProjectById } from "@/lib/api";
 import type { Project } from "@/lib/api";
+import Navbar from "../layout/Navbar";
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -32,21 +33,23 @@ const ProjectDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
       </div>
     );
   }
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <h1 className="text-2xl font-bold mb-4">Project not found</h1>
+          <h1 className="text-2xl font-bold mb-4 text-foreground">
+            Project not found
+          </h1>
           <Button onClick={() => navigate("/")}>Return Home</Button>
         </motion.div>
       </div>
@@ -54,12 +57,13 @@ const ProjectDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-background">
+      <Navbar />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto px-4 py-8"
+        className="max-w-4xl mx-auto px-4 py-20"
       >
         <motion.div
           initial={{ x: -20, opacity: 0 }}
@@ -68,7 +72,7 @@ const ProjectDetail = () => {
         >
           <Button
             variant="ghost"
-            className="mb-6"
+            className="mb-6 text-muted-foreground hover:text-foreground"
             onClick={() => navigate("/")}
           >
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Projects
@@ -95,8 +99,10 @@ const ProjectDetail = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="space-y-4"
           >
-            <h1 className="text-3xl font-bold">{project.title}</h1>
-            <p className="text-gray-600">{project.description}</p>
+            <h1 className="text-3xl font-bold text-foreground">
+              {project.title}
+            </h1>
+            <p className="text-muted-foreground">{project.description}</p>
 
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech, index) => (
@@ -105,7 +111,7 @@ const ProjectDetail = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.2, delay: 0.4 + index * 0.1 }}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                  className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm"
                 >
                   {tech}
                 </motion.span>

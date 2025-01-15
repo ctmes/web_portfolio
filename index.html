@@ -4,7 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <script>
+      // Immediately set the theme before page renders
+      (function () {
+        const theme =
+          localStorage.getItem("theme") ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+
+        // Apply theme to document
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(theme);
+
+        // Set background color to prevent white flash
+        document.documentElement.style.backgroundColor =
+          theme === "dark" ? "rgb(26, 26, 26)" : "#FFFFFF";
+        document.documentElement.style.color =
+          theme === "dark" ? "#E5E5E5" : "#2D2D2D";
+      })();
+    </script>
+    <title>Colin Melville - Portfolio</title>
   </head>
   <body>
     <div id="root"></div>

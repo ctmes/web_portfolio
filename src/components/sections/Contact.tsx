@@ -67,13 +67,13 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar className="bg-[#2D2D2D]" />
+    <div className="min-h-screen bg-background">
+      <Navbar />
       <div className="max-w-4xl mx-auto px-4 py-20">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold mb-8"
+          className="text-4xl font-bold mb-8 text-foreground"
         >
           Contact Me
         </motion.h1>
@@ -84,9 +84,11 @@ const Contact = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="space-y-6 bg-white rounded-lg p-8 shadow-sm border border-gray-100"
+            className="space-y-6 bg-card rounded-lg p-8 shadow-md border border-border"
           >
-            <h2 className="text-2xl font-semibold">Send a Message</h2>
+            <h2 className="text-2xl font-semibold text-foreground">
+              Send a Message
+            </h2>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -97,9 +99,13 @@ const Contact = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel className="text-foreground">Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your name" {...field} />
+                        <Input
+                          placeholder="Your name"
+                          className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 focus:border-primary shadow-sm"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -111,11 +117,12 @@ const Contact = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className="text-foreground">Email</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="Your email"
+                          className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 focus:border-primary shadow-sm"
                           {...field}
                         />
                       </FormControl>
@@ -129,11 +136,11 @@ const Contact = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Message</FormLabel>
+                      <FormLabel className="text-foreground">Message</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Your message"
-                          className="min-h-[150px]"
+                          className="min-h-[150px] bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 focus:border-primary shadow-sm"
                           {...field}
                         />
                       </FormControl>
@@ -144,7 +151,7 @@ const Contact = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-[#1A365D] hover:bg-[#2A466D]"
+                  className="w-full bg-[#1A365D] hover:bg-[#2A466D] text-white shadow-sm hover:shadow-md transition-all duration-200"
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? "Sending..." : "Send Message"}
@@ -160,14 +167,16 @@ const Contact = () => {
             transition={{ delay: 0.2 }}
             className="space-y-6"
           >
-            <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-semibold mb-4">Connect With Me</h2>
+            <div className="bg-card rounded-lg p-8 shadow-md border border-border">
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">
+                Connect With Me
+              </h2>
               <div className="space-y-4">
                 <a
                   href={socialLinks.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-gray-600 hover:text-[#1A365D] transition-colors"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Github size={20} />
                   <span>GitHub</span>
@@ -176,7 +185,7 @@ const Contact = () => {
                   href={socialLinks.leetcode}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-gray-600 hover:text-[#1A365D] transition-colors"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Code2 size={20} />
                   <span>LeetCode</span>
@@ -185,14 +194,14 @@ const Contact = () => {
                   href={socialLinks.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-gray-600 hover:text-[#1A365D] transition-colors"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Linkedin size={20} />
                   <span>LinkedIn</span>
                 </a>
                 <a
                   href={socialLinks.email}
-                  className="flex items-center gap-3 text-gray-600 hover:text-[#1A365D] transition-colors"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Mail size={20} />
                   <span>colintmelville@gmail.com</span>
@@ -200,10 +209,12 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-semibold mb-4">Location</h2>
-              <p className="text-gray-600">Canberra, Australia</p>
-              <p className="text-gray-600 mt-2">
+            <div className="bg-card rounded-lg p-8 shadow-md border border-border">
+              <h2 className="text-2xl font-semibold mb-4 text-foreground">
+                Location
+              </h2>
+              <p className="text-muted-foreground">Canberra, Australia</p>
+              <p className="text-muted-foreground mt-2">
                 Available for remote opportunities worldwide
               </p>
             </div>

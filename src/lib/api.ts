@@ -34,18 +34,30 @@ export async function getProjectById(id: string) {
   return data;
 }
 
-export async function getContactMessages() {
-  const { data, error } = await supabase
-    .from("contact_submissions")
-    .select("*")
-    .order("created_at", { ascending: false });
+export async function subscribeToNewsletter(email: string) {
+  // Check if already subscribed
+  const { data: existing } = await supabase
+    .from("newsletter_subscribers")
+    .select("id")
+    .eq("email", email)
+    .single();
 
-  if (error) {
-    console.error("Error fetching messages:", error);
-    return [];
+  if (existing) {
+    throw new Error(
+      "Looks like you're already subscribed! You'll continue receiving our updates.",
+    );
   }
 
-  return data;
+  const { error } = await supabase
+    .from("newsletter_subscribers")
+    .insert([{ email }]);
+
+  if (error) {
+    console.error("Error subscribing to newsletter:", error);
+    throw new Error("Failed to subscribe. Please try again.");
+  }
+
+  return true;
 }
 
 export async function submitContactForm({
@@ -63,7 +75,7 @@ export async function submitContactForm({
 
   if (error) {
     console.error("Error submitting contact form:", error);
-    throw new Error(error.message);
+    throw new Error("Failed to send message. Please try again.");
   }
 
   return true;
