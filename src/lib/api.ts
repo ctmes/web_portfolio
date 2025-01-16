@@ -34,6 +34,20 @@ export async function getProjectById(id: string) {
   return data;
 }
 
+export async function getContactMessages() {
+  const { data, error } = await supabase
+    .from("contact_submissions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching contact messages:", error);
+    return [];
+  }
+
+  return data;
+}
+
 export async function subscribeToNewsletter(email: string) {
   // Check if already subscribed
   const { data: existing } = await supabase
