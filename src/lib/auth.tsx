@@ -5,7 +5,10 @@ import type { Session, User } from "@supabase/supabase-js";
 type AuthContextType = {
   session: Session | null;
   user: User | null;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<{ 
+    user: User | null; 
+    session: Session | null 
+  }>;
   signOut: () => Promise<void>;
   loading: boolean;
 };
@@ -18,30 +21,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check active session
     supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (error) console.error("Error checking session:", error);
-      console.log("Initial session check:", { session });
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
     });
 
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("Auth state changed:", { event: _event, session });
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    console.log("Attempting to sign in with:", { email });
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -52,8 +50,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw error;
     }
 
-    console.log("Sign in successful:", { data });
-    return data;
+    return { 
+      user: data.user, 
+      session: data.session 
+    };
   };
 
   const signOut = async () => {
