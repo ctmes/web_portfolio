@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "../ui/image";
+import Image from "next/image"; // Explicitly import from next/image
 import { motion } from "framer-motion";
 
 interface HeroProps {
@@ -20,8 +20,8 @@ const Hero = ({
         <Image
           src={backgroundImage}
           alt="Hero background"
-          className="w-full h-full"
-          sizes="100vw"
+          fill
+          className="object-cover"
           priority
         />
         <motion.div
@@ -31,7 +31,6 @@ const Hero = ({
           className="absolute inset-0 bg-gray-900"
         />
       </div>
-
       {/* Content */}
       <div className="relative z-10 h-full w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-center items-start h-full">
