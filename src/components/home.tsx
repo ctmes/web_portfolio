@@ -3,6 +3,7 @@ import Navbar from "./layout/Navbar";
 import Hero from "./sections/Hero";
 import ProjectGrid from "./sections/ProjectGrid";
 import Footer from "./layout/Footer";
+import type { Project } from "@/lib/api";
 
 interface HomeProps {
   heroProps?: {
@@ -11,16 +12,7 @@ interface HomeProps {
     backgroundImage?: string;
   };
   projectGridProps?: {
-    projects: Array<{
-      id: string;
-      title: string;
-      description: string;
-      imageUrl: string;
-      technologies: string[];
-      githubUrl: string;
-      liveUrl: string;
-      category: string;
-    }>;
+    initialProjects?: Project[];
   };
   footerProps?: {
     socialLinks?: {
@@ -41,7 +33,7 @@ const Home = ({
     backgroundImage:
       "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
   },
-  projectGridProps = { projects: [] }, // Provide an empty array as default
+  projectGridProps = {},
   footerProps = {
     socialLinks: {
       github: "https://github.com/ctmes",
@@ -56,7 +48,7 @@ const Home = ({
       <Navbar />
       <main>
         <Hero {...heroProps} />
-        <ProjectGrid projects={projectGridProps.projects} />
+        <ProjectGrid initialProjects={projectGridProps.initialProjects} />
       </main>
       <Footer {...footerProps} />
     </div>
