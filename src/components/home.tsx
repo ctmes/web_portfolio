@@ -11,7 +11,7 @@ interface HomeProps {
     backgroundImage?: string;
   };
   projectGridProps?: {
-    projects?: Array<{
+    projects: Array<{
       id: string;
       title: string;
       description: string;
@@ -41,7 +41,7 @@ const Home = ({
     backgroundImage:
       "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
   },
-  projectGridProps = {},
+  projectGridProps = { projects: [] }, // Provide an empty array as default
   footerProps = {
     socialLinks: {
       github: "https://github.com/ctmes",
@@ -56,7 +56,7 @@ const Home = ({
       <Navbar />
       <main>
         <Hero {...heroProps} />
-        <ProjectGrid {...projectGridProps} />
+        <ProjectGrid projects={projectGridProps.projects} />
       </main>
       <Footer {...footerProps} />
     </div>
