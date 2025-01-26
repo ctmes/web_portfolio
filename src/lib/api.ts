@@ -2,20 +2,18 @@ import { supabase } from "./supabase";
 import type { Database } from "@/types/supabase";
 
 export type Project = Database["public"]["Tables"]["projects"]["Row"];
-export type ContactSubmission =
-  Database["public"]["Tables"]["contact_submissions"]["Row"];
+export type ContactSubmission = Database["public"]["Tables"]["contact_submissions"]["Row"];
+export type NewsletterSubscriber = Database["public"]["Tables"]["newsletter_subscribers"]["Row"];
 
 export async function getProjects() {
   const { data, error } = await supabase
     .from("projects")
     .select("*")
     .order("created_at", { ascending: false });
-
   if (error) {
     console.error("Error fetching projects:", error);
     return [];
   }
-
   return data;
 }
 
@@ -25,12 +23,10 @@ export async function getProjectById(id: string) {
     .select("*")
     .eq("id", id)
     .single();
-
   if (error) {
     console.error("Error fetching project:", error);
     return null;
   }
-
   return data;
 }
 
@@ -39,12 +35,10 @@ export async function getContactMessages() {
     .from("contact_submissions")
     .select("*")
     .order("created_at", { ascending: false });
-
   if (error) {
     console.error("Error fetching messages:", error);
     return [];
   }
-
   return data;
 }
 
@@ -60,11 +54,9 @@ export async function submitContactForm({
   const { error } = await supabase
     .from("contact_submissions")
     .insert([{ name, email, message }]);
-
   if (error) {
     console.error("Error submitting contact form:", error);
     throw new Error(error.message);
   }
-
   return true;
 }
