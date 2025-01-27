@@ -29,7 +29,7 @@ const Home = ({
   heroProps = {
     title: "Hi, I'm Colin Melville",
     subtitle:
-      "Advanced Computer Science student at ANU passionate about data analytics and web development",
+      "Advanced Computer Science (Hons; Spec: AI) student at ANU passionate about data analytics and innovative software solutions",
     backgroundImage:
       "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
   },
