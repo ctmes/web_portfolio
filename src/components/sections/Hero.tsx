@@ -10,7 +10,7 @@ interface HeroProps {
 
 const Hero = ({
   title = "Hi, I'm Colin Melville",
-  subtitle = "A Computer Science student passionate about building meaningful solutions",
+  subtitle = "A Computer Science student passionate about building innovative software solutions",
   backgroundImage = "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
 }: HeroProps) => {
   return (
@@ -22,7 +22,6 @@ const Hero = ({
           alt="Hero background"
           className="w-full h-full object-cover"
           sizes="100vw"
-          priority
         />
         <motion.div
           initial={{ opacity: 0 }}
