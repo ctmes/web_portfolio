@@ -45,6 +45,51 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_submissions: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          message: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          message: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          message?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          id: string
+          email: string
+          created_at: string
+          status: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          created_at?: string
+          status?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          created_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -60,6 +105,7 @@ export type Database = {
     }
   }
 }
+
 
 type PublicSchema = Database[Extract<keyof Database, "public">]
 
