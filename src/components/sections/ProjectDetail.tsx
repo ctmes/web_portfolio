@@ -54,7 +54,7 @@ const ProjectDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-background text-foreground pt-20">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -95,8 +95,10 @@ const ProjectDetail = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="space-y-4"
           >
-            <h1 className="text-3xl font-bold">{project.title}</h1>
-            <p className="text-gray-600">{project.description}</p>
+            <h1 className="text-3xl font-bold text-foreground">
+              {project.title}
+            </h1>
+            <p className="text-muted-foreground">{project.description}</p>
 
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech, index) => (
@@ -105,7 +107,7 @@ const ProjectDetail = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.2, delay: 0.4 + index * 0.1 }}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                  className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
                 >
                   {tech}
                 </motion.span>

@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Github, Linkedin, Mail, Code2 } from "lucide-react";
+import { Github, Twitter, Linkedin, Mail, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -18,7 +18,6 @@ import {
 } from "../ui/form";
 import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
-import { submitContactForm } from "@/lib/api";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,20 +38,18 @@ const Contact = () => {
     },
   });
 
-  const socialLinks = {
-    github: "https://github.com/ctmes",
-    leetcode: "https://leetcode.com/u/colintmelville/",
-    linkedin: "https://www.linkedin.com/in/colin-melville-570383245",
-    email: "mailto:colintmelville@gmail.com",
-  };
-
   const onSubmit = async (data: FormValues) => {
     try {
-      await submitContactForm({
-        name: data.name,
-        email: data.email,
-        message: data.message
+      const response = await fetch("https://formspree.io/f/mldgnweo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+
+      if (!response.ok) throw new Error("Failed to send message");
+
       toast({
         title: "Message sent!",
         description: "Thank you for reaching out. I'll get back to you soon.",
@@ -70,11 +67,88 @@ const Contact = () => {
     }
   };
 
-  // Rest of the component remains the same...
-
   return (
-    <div className="min-h-screen bg-white">
-      {/* Component JSX remains unchanged */}
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md mx-auto"
+        >
+          <div className="bg-card text-card-foreground p-8 rounded-lg shadow-sm border border-border">
+            <h2 className="text-3xl font-bold text-foreground mb-6 text-center">
+              Get in Touch
+            </h2>
+
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="your.email@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Your message"
+                          className="min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
+            </Form>
+          </div>
+        </motion.div>
+      </div>
+      <Footer />
     </div>
   );
 };

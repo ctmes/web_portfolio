@@ -50,7 +50,7 @@ function ProjectGrid({ initialProjects }: ProjectGridProps) {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-12 bg-background">
+    <div className="w-full max-w-7xl mx-auto px-4 py-12 dark:bg-background">
       <div className="mb-8 flex flex-wrap gap-2 justify-center">
         {categories.map((category) => (
           <Button

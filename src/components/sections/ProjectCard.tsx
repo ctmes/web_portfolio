@@ -46,10 +46,10 @@ const ProjectCard = ({
 
   return (
     <Card
-      className="w-[320px] overflow-hidden group bg-card hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
+      className="w-[320px] overflow-hidden group hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col dark:bg-card dark:text-card-foreground"
       onClick={handleCardClick}
     >
-      <div className="relative h-36 overflow-hidden">
+      <div className="relative h-36 overflow-hidden bg-muted">
         <Image
           src={imageUrl}
           alt={title}
